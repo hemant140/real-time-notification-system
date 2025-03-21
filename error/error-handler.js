@@ -1,4 +1,4 @@
-const responseHandler = (res, statusCode, message, data) => {
+export const responseHandler = (res, statusCode, message, data) => {
     res.status(statusCode).json({
         status: statusCode < 400 ? true : false,
         message,
