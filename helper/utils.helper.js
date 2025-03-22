@@ -1,6 +1,8 @@
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
+import dotenv from 'dotenv';
+dotenv.config()
 
 const SECRET_KEY = process.env.JWT_SECRECT_KEY
 const EXPIRES_IN = process.env.EXPIRES_IN
@@ -33,13 +35,14 @@ export const comparePassword = (password, hashedPassword) => {
 
 export const generatedToken = (payload) => {
     const token = jwt.sign(payload, SECRET_KEY, { expiresIn: EXPIRES_IN });
-    return encryptAES(token);
+    // console.log(token, "token")
+    return token;
 }
 
 export const verifyToken = (token) => {
     try {
-        const decryptedToken = decryptAES(token);
-        return jwt.verify(decryptedToken, SECRET_KEY);
+        // const decryptedToken = decryptAES(token);
+        return jwt.verify(token, SECRET_KEY);
     } catch (error) {
         console.error("Invalid or expired token:", error.message);
         return null;
