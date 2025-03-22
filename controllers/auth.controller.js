@@ -47,6 +47,7 @@ export const login = async (req, res, next) => {
         }
 
         const tokenPayload = {
+            userId: user.userId,
             name: user.name,
             email: user.password,
             role: user.role,

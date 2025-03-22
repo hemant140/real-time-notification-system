@@ -12,6 +12,19 @@ export const findByEmail = async (email) => {
     }
 }
 
+
+export const findById = async (userId) => {
+    try {
+        const response = await User.findById({ _id: userId });
+
+        return response || null;
+
+    } catch (error) {
+        console.error("Something went wrong finding user by Id", error.message)
+        throw error;
+    }
+}
+
 export const createUser = async (payload) => {
     try {
         const response = await User.create(payload);
