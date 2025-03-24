@@ -47,7 +47,7 @@ export const login = async (req, res, next) => {
         }
 
         const tokenPayload = {
-            userId: user.userId,
+            userId: user.id,
             name: user.name,
             email: user.password,
             role: user.role,
@@ -67,3 +67,20 @@ export const login = async (req, res, next) => {
     }
 
 }
+
+
+export const profile = async (req, res, next) => {
+    try {
+        const response = await userService.findById(req.userId);
+
+        if (!response) {
+            return responseHandler(res, 404, 'User not found!');
+        }
+
+        return responseHandler(res, 200, 'User profile fetched successfully', response);
+
+    } catch (error) {
+        console.error("Something went wrong while fetching the user profile:", error.message);
+        next(error);
+    }
+};

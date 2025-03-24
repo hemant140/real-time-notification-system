@@ -9,11 +9,9 @@ const tokenValidate = async (req, res, next) => {
     }
 
     try {
-
         const decode = verifyToken(token);
-
         req.userId = decode.userId;
-
+        req.role = decode.role
         next();
 
     } catch (error) {

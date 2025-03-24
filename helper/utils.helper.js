@@ -40,6 +40,7 @@ export const generatedToken = (payload) => {
 }
 
 export const verifyToken = (token) => {
+
     try {
         // const decryptedToken = decryptAES(token);
         return jwt.verify(token, SECRET_KEY);
