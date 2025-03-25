@@ -12,17 +12,35 @@ export const findByEmail = async (email) => {
     }
 }
 
-export const getAllUsers = async () => {
+export const getAllUsers = async (page, limit, search) => {
     try {
-        const response = await User.find({ __v: 0 });
 
-        return response || null;
+        // console.log(typeof search)
+        const skip = (page - 1) * limit;
+        const query = search
+            ? {
+                $or: [
+                    { name: { $regex: search, $options: "i" } },
+                    { email: { $regex: search, $options: "i" } },
+                ]
+            }
+            : {};
+
+
+        // console.log(query)
+        const [users, totalCount] = await Promise.all([
+            User.find(query, { __v: 0 }).skip(skip).limit(parseInt(limit)),
+            User.countDocuments(query)
+        ]);
+
+        return { totalCount, users } || null;
 
     } catch (error) {
-        console.error("Something went wrong find users", error.message)
+        console.error("Something went wrong while fetching users", error.message);
         throw error;
     }
-}
+};
+
 
 
 export const findById = async (userId) => {

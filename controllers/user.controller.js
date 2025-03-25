@@ -24,13 +24,15 @@ export const getUserById = async (req, res, next) => {
 export const getAllUsers = async (req, res, next) => {
 
     const role = req.role;
+    const { page = 1, limit = 10, search = "" } = req.query;
+
     try {
 
         if (role !== 'Admin') {
             return responseHandler(res, 403, 'User not found or unauthorized!');
         }
 
-        const response = await userService.getAllUsers();
+        const response = await userService.getAllUsers(page, limit, search);
 
         if (!response) {
             return responseHandler(res, 404, 'User does not found!');
